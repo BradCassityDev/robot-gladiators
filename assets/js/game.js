@@ -6,24 +6,43 @@
 // "LOSE" - Player robot's health is zero or less
 
 
+var fightOrSkip = function() {
+    var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
+
+    if(!promptFight) {
+        window.alert("You need to provide a valid answer! Please try again.");
+        fightOrSkip();
+    }
+
+    promptFight = promptFight.toLowerCase();
+
+    // Confirm user wants to skip
+    if (promptFight === "skip") {
+        // Confirm user wants to skip the fight
+        var confirmSkip = window.confirm("Are you you'd like to quit?");
+
+        // if yes, leave fight
+        if(confirmSkip) {
+            window.alert(playerInfo.name + " has decided to skip this fight. Goodbye!");
+            // sbutract money from player
+            playerInfo.money = Math.max(0, playerInfo.money - 10);
+            return true;
+            //shop();
+            //console.log("playerMoney", playerInfo.money);
+            //break;
+        }
+    }
+
+    return false;
+
+}
+
+
  var fight = function(enemy) {
 
     while(enemy.health > 0 && playerInfo.health > 0) {
-        var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
-
-        // Confirm user wants to skip
-        if (promptFight === "skip" || promptFight === "SKIP") {
-            // Confirm user wants to skip the fight
-            var confirmSkip = window.confirm("Are you you'd like to quit?");
-
-            // if yes, leave fight
-            if(confirmSkip) {
-                window.alert(playerInfo.name + " has decided to skip this fight. Goodbye!");
-                // sbutract money from player
-                playerInfo.money = Math.max(0, playerInfo.money - 10);
-                console.log("playerMoney", playerInfo.money);
-                break;
-            }
+        if(fightOrSkip()) {
+            break;
         }
 
         // Subtract the value of 'playerAttack' from the value of 'enemyHealth' and use that result to update the value in the 'enemyHealth' variable
